@@ -1,4 +1,6 @@
-﻿namespace Exercício01
+﻿using System.Runtime.CompilerServices;
+
+namespace Exercício01
 {
     internal class Program
     {
@@ -8,7 +10,8 @@
             //Exercício02();
             //Exercício03();
             //Exercício04();
-            Exercício05();
+            //Exercício05();
+            Exercício06();
         }
 
         private static void Exercício01()
@@ -73,15 +76,15 @@
             Console.WriteLine($"O maior número é {maiorNumero} e o menor é {menorNumero}");
 
         }
-    
+
         private static void Exercício03()
         {
             //- Crie um programa que preencha uma matriz 3x3 com valores inteiros informados pelo usuário e depois exiba essa matriz na tela.
 
             int[,] vector = new int[3, 3];
-            for (int i = 0; i < vector.GetLength(0);i++)
+            for (int i = 0; i < vector.GetLength(0); i++)
             {
-               for (int j = 0; j < vector.GetLongLength(0); j++)
+                for (int j = 0; j < vector.GetLongLength(0); j++)
                 {
                     Console.WriteLine("Digite um número inteiro");
                     if (int.TryParse(Console.ReadLine(), out int valorInteiro))
@@ -97,9 +100,9 @@
             }
             for (int i = 0; i < vector.GetLength(0); i++)
             {
-                for (int j = 0;j < vector.GetLongLength(0);j++)
+                for (int j = 0; j < vector.GetLongLength(0); j++)
                 {
-                    Console.WriteLine(vector[i,j] + "\t");
+                    Console.WriteLine(vector[i, j] + "\t");
                 }
                 Console.WriteLine();
             }
@@ -147,7 +150,7 @@
                 vetorResultante[i] = vetorUm[i] + vetorDois[i];
             }
             imprimirInformacoes(vetorResultante);
-          
+
 
 
         }
@@ -156,7 +159,7 @@
             // - Crie uma matriz 4x4 de números inteiros aleatórios e encontre o maior valor presente nela.
 
             Random randomizer = new Random();
-            
+
             // Generate a random number between 0 and 100
             // int randomNumber = randomizer.Next(101);
 
@@ -164,13 +167,13 @@
             // Console.WriteLine("Random number: " + randomNumber);
 
             int[,] vetor = new int[4, 4];
-            
-            for (int i = 0; i < 4; i++) 
-            {   
-               for (int j = 0; j < 4; j++)
-               {
+
+            for (int i = 0; i < 4; i++)
+            {
+                for (int j = 0; j < 4; j++)
+                {
                     vetor[i, j] = randomizer.Next(0, 100);
-               }                
+                }
             }
             int maiorNumero = vetor[0, 0];
 
@@ -185,7 +188,7 @@
                     }
                 }
             }
-        Console.WriteLine(maiorNumero);
+            Console.WriteLine(maiorNumero);
         }
 
         private static void Exercício06()
@@ -206,9 +209,62 @@
             { "Spot", "Cachorro", "4", "12kg" }
             }; */
 
-            string[,] informacoes = new string[5, 4];
+            string[,] dados =
+           {
+            { "Fido", "Cachorro", "5", "10kg" },
+            { "Whiskers", "Gato", "5", "5kg" },
+            { "Buddy", "Cachorro", "3", "8kg" },
+            { "Fluffy", "Gato", "2", "4kg" },
+            { "Spot", "Cachorro", "4", "12kg" }
+            };
 
-            
+            foreach (var itens in dados)
+            {
+                Console.WriteLine(itens);
+            }
+
+            Console.WriteLine("Pesquisa de pets");
+            MenuDeOpcoes(out string operacao);//Função para verificar as opções
+
+            if (operacao.Equals("exit"))//Verificar se deve encerrar
+            {
+                return;
+            }
+            Console.WriteLine("Entre com o valor da pesquisa:");
+            var valorParaPesquisar = Console.ReadLine();
+
+            for (int i = 0; i < dados.GetLength(0); i++)
+            {
+                if (valorParaPesquisar.Equals(dados[i, int.Parse(operacao)]))
+                {
+                    Console.WriteLine($"Encontrado {ImprimirAnimal(dados, i)}");
+                }
+            }
+
+
+        }
+        static string ImprimirAnimal(string[,] animais, int indiceAnimal)
+        {
+            const int indiceNome = 0;
+            const int indiceEspecie = 1;
+            const int indiceIdade = 2;
+            const int indicePeso = 3;
+            string animal = $"nome: {animais[indiceAnimal, indiceNome]}, especie: {animais[indiceAnimal, indiceEspecie]}, idade: {animais[indiceAnimal, indiceIdade]}, peso: {animais[indiceAnimal, indicePeso]}";
+            return animal;
+        }
+
+        static void MenuDeOpcoes(out string operacao)
+        {
+            Console.Clear();  //Limpar a tela
+            Console.WriteLine(@"
+            Para buscar por nome digite 0 
+            Para buscar por especie digite 1 
+            Para buscar por idade digite 2 
+            Para buscar por peso digite 3 
+            Para sair, digite 'exit'");
+
+            operacao = Console.ReadLine().ToLower();
+            operacao = operacao == null ? string.Empty : operacao.Trim();
         }
     }
 }
